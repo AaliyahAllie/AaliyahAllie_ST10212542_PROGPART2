@@ -24,5 +24,24 @@ namespace AaliyahAllie_ST10212542_PROGPART2
         {
             InitializeComponent();
         }
+
+        private void LecturerLogin_Click(object sender, RoutedEventArgs e)
+        {
+            LecturerLogin lecturerLogin = new LecturerLogin();
+            lecturerLogin.Show();
+        }
+
+        private void ProgrammeCoordinatorLogin_Click(object sender, RoutedEventArgs e)
+        {
+            ProgrammeCoordinatorLogin coordinatorLogin = new ProgrammeCoordinatorLogin();
+            coordinatorLogin.Show();
+        }
+
+
+        private void CreateAccountButton_Click(object sender, RoutedEventArgs e)
+        {
+            CreateAccountWindow createAccountWindow = new CreateAccountWindow();
+            createAccountWindow.Show();
+        }
     }
 }
