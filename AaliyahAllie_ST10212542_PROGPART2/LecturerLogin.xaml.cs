@@ -29,7 +29,7 @@ namespace AaliyahAllie_ST10212542_PROGPART2
         {
             // Get the user's input from the form fields
             string email = EmailTextBox.Text.Trim();
-            string password = PasswordBox.Password.Trim();  // Ideally, this should be hashed before storing or comparing
+            string password = PasswordBox.Password.Trim(); 
 
             // Validate that both fields are filled out
             if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))

@@ -62,6 +62,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="LecturerDashboard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="LecturerLogin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -76,6 +80,9 @@
     </Compile>
     <Compile Include="CreateAccountWindow.xaml.cs">
       <DependentUpon>CreateAccountWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LecturerDashboard.xaml.cs">
+      <DependentUpon>LecturerDashboard.xaml</DependentUpon>
     </Compile>
     <Compile Include="LecturerLogin.xaml.cs">
       <DependentUpon>LecturerLogin.xaml</DependentUpon>
