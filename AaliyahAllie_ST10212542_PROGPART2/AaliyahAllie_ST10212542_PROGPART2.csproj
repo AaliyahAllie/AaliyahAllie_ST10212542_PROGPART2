@@ -61,6 +61,9 @@
     <Compile Include="SubmitClaim.xaml.cs">
       <DependentUpon>SubmitClaim.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SupportingDocs.xaml.cs">
+      <DependentUpon>SupportingDocs.xaml</DependentUpon>
+    </Compile>
     <Page Include="CreateAccountWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -103,6 +106,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SubmitClaim.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SupportingDocs.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
