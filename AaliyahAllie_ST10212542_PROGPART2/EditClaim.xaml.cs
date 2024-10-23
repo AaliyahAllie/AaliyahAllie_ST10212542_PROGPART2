@@ -1,27 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace AaliyahAllie_ST10212542_PROGPART2
 {
-    /// <summary>
-    /// Interaction logic for EditClaim.xaml
-    /// </summary>
     public partial class EditClaim : Window
     {
         private string connectionString = "Data Source=hp820g4\\SQLEXPRESS;Initial Catalog=POE;Integrated Security=True;";
         private int claimID;
+        private decimal sessionCost = 100; // Example cost per session
 
         public EditClaim(int claimID)
         {
@@ -30,10 +17,9 @@ namespace AaliyahAllie_ST10212542_PROGPART2
             LoadClaimDetails();
         }
 
-        // Method to load claim details for editing
         private void LoadClaimDetails()
         {
-            string query = "SELECT ClassTaught, TotalAmount FROM Claims WHERE ClaimID = @ClaimID";
+            string query = "SELECT ClassTaught, NumberOfSessions, TotalAmount FROM Claims WHERE ClaimID = @ClaimID";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -47,6 +33,7 @@ namespace AaliyahAllie_ST10212542_PROGPART2
                     if (reader.Read())
                     {
                         ClassTaughtTextBox.Text = reader["ClassTaught"].ToString();
+                        NumberOfSessionsTextBox.Text = reader["NumberOfSessions"].ToString();
                         TotalAmountTextBox.Text = reader["TotalAmount"].ToString();
                     }
                 }
@@ -57,33 +44,47 @@ namespace AaliyahAllie_ST10212542_PROGPART2
             }
         }
 
-        // Event handler for saving changes
-        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        private void NumberOfSessionsTextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
-            string classTaught = ClassTaughtTextBox.Text;
-            decimal totalAmount;
-
-            if (decimal.TryParse(TotalAmountTextBox.Text, out totalAmount))
+            if (int.TryParse(NumberOfSessionsTextBox.Text, out int numberOfSessions))
             {
-                UpdateClaim(classTaught, totalAmount);
-                MessageBox.Show("Claim updated successfully!");
-                Close(); // Close the edit window
+                decimal totalAmount = numberOfSessions * sessionCost;
+                TotalAmountTextBox.Text = totalAmount.ToString("F2"); // Format to 2 decimal places
             }
             else
             {
-                MessageBox.Show("Invalid total amount.");
+                TotalAmountTextBox.Text = "0.00"; // Reset if input is invalid
             }
         }
 
-        // Method to update claim in the database
-        private void UpdateClaim(string classTaught, decimal totalAmount)
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            string query = "UPDATE Claims SET ClassTaught = @ClassTaught, TotalAmount = @TotalAmount WHERE ClaimID = @ClaimID";
+            string classTaught = ClassTaughtTextBox.Text;
+            int numberOfSessions;
+            decimal totalAmount;
+
+            if (int.TryParse(NumberOfSessionsTextBox.Text, out numberOfSessions) &&
+                decimal.TryParse(TotalAmountTextBox.Text, out totalAmount))
+            {
+                UpdateClaim(classTaught, numberOfSessions, totalAmount);
+                MessageBox.Show("Claim updated successfully!");
+                Close();
+            }
+            else
+            {
+                MessageBox.Show("Invalid input for number of sessions or total amount.");
+            }
+        }
+
+        private void UpdateClaim(string classTaught, int numberOfSessions, decimal totalAmount)
+        {
+            string query = "UPDATE Claims SET ClassTaught = @ClassTaught, NumberOfSessions = @NumberOfSessions, TotalAmount = @TotalAmount WHERE ClaimID = @ClaimID";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@ClassTaught", classTaught);
+                command.Parameters.AddWithValue("@NumberOfSessions", numberOfSessions);
                 command.Parameters.AddWithValue("@TotalAmount", totalAmount);
                 command.Parameters.AddWithValue("@ClaimID", claimID);
 
