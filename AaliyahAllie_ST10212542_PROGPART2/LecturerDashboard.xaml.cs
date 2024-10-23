@@ -1,32 +1,32 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data.SqlClient;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace AaliyahAllie_ST10212542_PROGPART2
 {
-    /// <summary>
-    /// Interaction logic for LecturerDashboard.xaml
-    /// </summary>
     public partial class LecturerDashboard : Window
     {
         private string connectionString = "Data Source=hp820g4\\SQLEXPRESS;Initial Catalog=POE;Integrated Security=True;";
+        private DispatcherTimer timer;
 
         public LecturerDashboard()
         {
             InitializeComponent();
             LoadClaimStatus();
+
+            // Set up the timer to refresh claim status every 5 seconds
+            timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(5);
+            timer.Tick += Timer_Tick;
+            timer.Start();
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            LoadClaimStatus(); // Reload the claim status every 5 seconds
         }
 
         private void SubmitClaim_Click(object sender, RoutedEventArgs e)
