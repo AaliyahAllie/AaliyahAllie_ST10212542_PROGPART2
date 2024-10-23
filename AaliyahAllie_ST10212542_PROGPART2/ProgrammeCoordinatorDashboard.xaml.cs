@@ -16,22 +16,23 @@ using System.Windows.Shapes;
 namespace AaliyahAllie_ST10212542_PROGPART2
 {
     /// <summary>
-    /// Interaction logic for ProgrammeCoordinatorDashboard.xaml
+    /// coordinators will have submitted claims uploaded to this screen where they can either approve or reject the claims
     /// </summary>
     public partial class ProgrammeCoordinatorDashboard : Window
     {
+        // Constructor for the ProgrammeCoordinatorDashboard
         public ProgrammeCoordinatorDashboard()
         {
             InitializeComponent();
             LoadClaims();
         }
-
+        // Method to load claims into the ListView
         private void LoadClaims()
         {
             List<Claim> claims = GetClaimsFromDatabase();
             ClaimsListView.ItemsSource = claims;
         }
-
+        //calls the claims and displays them in a listed view
         private List<Claim> GetClaimsFromDatabase()
         {
             List<Claim> claims = new List<Claim>();
@@ -64,7 +65,7 @@ namespace AaliyahAllie_ST10212542_PROGPART2
             }
             return claims;
         }
-
+        //updates the claims status based on coordinators decision
         private void UpdateClaimStatus(int claimID, string newStatus)
         {
             string connectionString = "Data Source=hp820g4\\SQLEXPRESS;Initial Catalog=POE;Integrated Security=True;";
@@ -89,7 +90,7 @@ namespace AaliyahAllie_ST10212542_PROGPART2
                 }
             }
         }
-
+        //Approve button changes status of claims to approved
         private void ApproveButton_Click(object sender, RoutedEventArgs e)
         {
             if (ClaimsListView.SelectedItem is Claim selectedClaim)
@@ -101,7 +102,7 @@ namespace AaliyahAllie_ST10212542_PROGPART2
                 MessageBox.Show("Please select a claim to approve.");
             }
         }
-
+        //rejection button will change status to rejected
         private void RejectButton_Click(object sender, RoutedEventArgs e)
         {
             if (ClaimsListView.SelectedItem is Claim selectedClaim)
@@ -113,7 +114,7 @@ namespace AaliyahAllie_ST10212542_PROGPART2
                 MessageBox.Show("Please select a claim to reject.");
             }
         }
-
+        //pending button will change status to pending
         private void PendingButton_Click(object sender, RoutedEventArgs e)
         {
             if (ClaimsListView.SelectedItem is Claim selectedClaim)

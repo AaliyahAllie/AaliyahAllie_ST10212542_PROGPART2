@@ -17,7 +17,7 @@ using System.Windows.Shapes;
 namespace AaliyahAllie_ST10212542_PROGPART2
 {
     /// <summary>
-    /// Interaction logic for SubmitClaim.xaml
+    /// Lecturers claims will be uploaded based on information they input
     /// </summary>
     public partial class SubmitClaim : Window
     {

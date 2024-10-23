@@ -17,7 +17,7 @@ using System.Windows.Shapes;
 namespace AaliyahAllie_ST10212542_PROGPART2
 {
     /// <summary>
-    /// Interaction logic for ViewClaims.xaml
+    /// Users will be able to view the claims they submitted and either edit or delete them
     /// </summary>
     public partial class ViewClaims : Window
     {

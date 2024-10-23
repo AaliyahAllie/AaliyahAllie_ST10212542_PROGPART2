@@ -4,8 +4,10 @@ using System.Windows;
 
 namespace AaliyahAllie_ST10212542_PROGPART2
 {
+    //Logic behind allowing users to update their claims information
     public partial class EditClaim : Window
     {
+        //connect to the database
         private string connectionString = "Data Source=hp820g4\\SQLEXPRESS;Initial Catalog=POE;Integrated Security=True;";
         private int claimID;
         private decimal sessionCost = 105; // Example cost per session
@@ -17,6 +19,7 @@ namespace AaliyahAllie_ST10212542_PROGPART2
             LoadClaimDetails();
         }
 
+        //updated the information in the claims so that the total amount is updated and displayed based on the total sessions
         private void LoadClaimDetails()
         {
             string query = "SELECT ClassTaught, NumberOfSessions, TotalAmount FROM Claims WHERE ClaimID = @ClaimID";
@@ -44,6 +47,7 @@ namespace AaliyahAllie_ST10212542_PROGPART2
             }
         }
 
+        //method to capture the amount of sessions the user has
         private void NumberOfSessionsTextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
             if (int.TryParse(NumberOfSessionsTextBox.Text, out int numberOfSessions))
@@ -56,7 +60,7 @@ namespace AaliyahAllie_ST10212542_PROGPART2
                 TotalAmountTextBox.Text = "0.00"; // Reset if input is invalid
             }
         }
-
+        //once the save button is clicked it will save data and update the total amount for that course
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             string classTaught = ClassTaughtTextBox.Text;
@@ -75,7 +79,7 @@ namespace AaliyahAllie_ST10212542_PROGPART2
                 MessageBox.Show("Invalid input for number of sessions or total amount.");
             }
         }
-
+        //this method will update the claim in the database
         private void UpdateClaim(string classTaught, int numberOfSessions, decimal totalAmount)
         {
             string query = "UPDATE Claims SET ClassTaught = @ClassTaught, NumberOfSessions = @NumberOfSessions, TotalAmount = @TotalAmount WHERE ClaimID = @ClaimID";

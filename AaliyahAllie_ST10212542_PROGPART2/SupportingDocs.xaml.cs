@@ -1,13 +1,13 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Data.SqlClient;
-using System.IO; // Ensure this namespace is included
+using System.IO; 
 using System.Windows;
 
 namespace AaliyahAllie_ST10212542_PROGPART2
 {
     /// <summary>
-    /// Interaction logic for SupportingDocs.xaml
+    /// Users can upload more documents or upload a document if they forgot as long as they know the name of the class they taught
     /// </summary>
     public partial class SupportingDocs : Window
     {

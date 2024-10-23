@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Submit Claim" Height="450" Width="500">
     <Grid Background="#FF579ED4">
+        <!--Lecturers can upload their information for submission of their claims-->
         <!-- Class taught label and text box -->
         <TextBlock Text="Class Taught:" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,40,0,0"/>
         <TextBox x:Name="ClassTaughtTextBox" Width="300" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,40,0,0"/>

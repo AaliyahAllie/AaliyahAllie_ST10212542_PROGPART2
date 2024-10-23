@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 namespace AaliyahAllie_ST10212542_PROGPART2
 {
     /// <summary>
-    /// Interaction logic for LecturerLogin.xaml
+    /// When a lecturer logs in, they will be directed to the Lecturer Dashboard window if their login is successful and they have an account
     /// </summary>
     public partial class LecturerLogin : Window
     {
@@ -40,9 +40,9 @@ namespace AaliyahAllie_ST10212542_PROGPART2
 
             try
             {
-                // SQL connection string to your database
+                // SQL connection string to  database
                 string connectionString = "Data Source=hp820g4\\SQLEXPRESS;Initial Catalog=POE;Integrated Security=True;";
-                // Establish a SQL connection using the connection string
+                
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();

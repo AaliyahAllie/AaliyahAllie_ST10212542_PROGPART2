@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 namespace AaliyahAllie_ST10212542_PROGPART2
 {
     /// <summary>
-    /// Interaction logic for ProgrammeCoordinatorLogin.xaml
+    /// When coordinators are approved for login they will be taken to coordinator dashboard
     /// </summary>
     public partial class ProgrammeCoordinatorLogin : Window
     {
@@ -29,7 +29,7 @@ namespace AaliyahAllie_ST10212542_PROGPART2
         {
             // Get email and password from the form
             string email = EmailTextBox.Text.Trim();
-            string password = PasswordBox.Password.Trim();  // In a real app, you should hash the password.
+            string password = PasswordBox.Password.Trim(); 
 
             // Validate input
             if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))

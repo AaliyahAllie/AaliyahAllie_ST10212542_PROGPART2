@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Edit Claim" Height="350" Width="400">
     <Grid Background="#FF579ED4">
+        <!---This window will allow lecturers to edit the details of their claims and save it-->
         <TextBlock Text="Class Taught:" Margin="10" VerticalAlignment="Top" FontSize="14" FontWeight="Bold" />
         <TextBox x:Name="ClassTaughtTextBox" Margin="10,30,10,0" VerticalAlignment="Top" Height="25"/>
 

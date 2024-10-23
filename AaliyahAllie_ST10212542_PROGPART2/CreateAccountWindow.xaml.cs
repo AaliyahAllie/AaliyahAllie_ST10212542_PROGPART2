@@ -7,7 +7,7 @@ using System.Windows.Controls;
 namespace AaliyahAllie_ST10212542_PROGPART2
 {
     /// <summary>
-    /// Interaction logic for CreateAccountWindow.xaml
+    /// This window allows for users to create their account and have it stored into the database
     /// </summary>
     public partial class CreateAccountWindow : Window
     {
@@ -16,6 +16,7 @@ namespace AaliyahAllie_ST10212542_PROGPART2
             InitializeComponent();
         }
 
+        //This method is called when the Create Account button is clicked and will save the users information (name,surname,email etc.) into the database once the button is clicked.
         private void CreateAccountButton_Click(object sender, RoutedEventArgs e)
         {
             // Get the values from the form
@@ -46,8 +47,8 @@ namespace AaliyahAllie_ST10212542_PROGPART2
                     // Open Connection
                     con.Open();
 
-                    // Hash the password (this is just a placeholder, implement a real hashing algorithm)
-                    string passwordHash = password; // Replace this with a real hash function for security
+                    
+                    string passwordHash = password; 
 
                     // SQL Query with all required fields, including email
                     string query = "INSERT INTO AccountUser (FirstName, LastName, Email, PhoneNumber, PasswordHash, AccountType) " +

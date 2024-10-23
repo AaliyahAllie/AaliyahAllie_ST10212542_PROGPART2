@@ -3,6 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Title="Welcome to the Portfolio of Evidence (PoE) PROG6212" Height="450" Width="600">
     <Grid Background="#FF579ED4">
+        <!--First window that users will interact with-->
         <TextBlock TextWrapping="Wrap" FontSize="16" Margin="20,20,20,10">
         Welcome to Rosebank College Contract Monthly Claims System. This system is designed to help you manage your monthly claims for the contract you are working on. 
         Please sign in to continue.

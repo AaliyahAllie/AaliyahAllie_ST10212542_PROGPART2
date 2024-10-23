@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Programme Coordinator Login" Height="300" Width="400">
     <Grid Background="#FF579ED4">
+        <!---Allows coordinators to login if they have an account-->
         <TextBlock Text="Programme Coordinator Login" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,20,0,0"/>
 
         <TextBlock Text="Email:" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="40,60,0,0"/>

@@ -3,6 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Title="Create Account" Height="500" Width="400">
     <Grid Background="#FF579ED4">
+        <!---This window will capture new user data for whether they are a lecturer or coordinator and save their account-->
         <TextBlock Text="Create Account" FontSize="20" HorizontalAlignment="Center" Margin="0,10,0,0"/>
 
         <!-- Role selection -->
