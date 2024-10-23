@@ -174,8 +174,7 @@
   <ItemGroup>
     <Compile Include="LecturerDashboardTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CreateAccountWindowTests.cs" />
-    <Compile Include="EditClaimTests.cs" />
+    <Compile Include="SubmitClaimTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
