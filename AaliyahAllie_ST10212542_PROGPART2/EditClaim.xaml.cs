@@ -8,7 +8,7 @@ namespace AaliyahAllie_ST10212542_PROGPART2
     {
         private string connectionString = "Data Source=hp820g4\\SQLEXPRESS;Initial Catalog=POE;Integrated Security=True;";
         private int claimID;
-        private decimal sessionCost = 100; // Example cost per session
+        private decimal sessionCost = 105; // Example cost per session
 
         public EditClaim(int claimID)
         {
