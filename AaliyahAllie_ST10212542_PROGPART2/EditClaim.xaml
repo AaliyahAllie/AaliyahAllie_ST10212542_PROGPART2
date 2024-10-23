@@ -1,7 +1,7 @@
 ﻿<Window x:Class="AaliyahAllie_ST10212542_PROGPART2.EditClaim" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Edit Claim" Height="300" Width="400">
-    <Grid>
+    <Grid Background="#FF579ED4">
         <TextBlock Text="Class Taught:" Margin="10" VerticalAlignment="Top" />
         <TextBox x:Name="ClassTaughtTextBox" Margin="10,30,10,0" VerticalAlignment="Top"/>
 
