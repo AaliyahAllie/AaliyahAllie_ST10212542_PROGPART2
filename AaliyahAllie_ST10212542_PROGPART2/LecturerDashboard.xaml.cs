@@ -24,7 +24,7 @@ namespace AaliyahAllie_ST10212542_PROGPART2
             timer.Start();
         }
 
-        private void Timer_Tick(object sender, EventArgs e)
+       public void Timer_Tick(object sender, EventArgs e)
         {
             LoadClaimStatus(); // Reload the claim status every 5 seconds
         }

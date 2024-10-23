@@ -17,7 +17,7 @@ namespace AaliyahAllie_ST10212542_PROGPART2
         }
 
         //This method is called when the Create Account button is clicked and will save the users information (name,surname,email etc.) into the database once the button is clicked.
-        private void CreateAccountButton_Click(object sender, RoutedEventArgs e)
+        public void CreateAccountButton_Click(object sender, RoutedEventArgs e)
         {
             // Get the values from the form
             string role = (RoleComboBox.SelectedItem as ComboBoxItem)?.Content.ToString();
