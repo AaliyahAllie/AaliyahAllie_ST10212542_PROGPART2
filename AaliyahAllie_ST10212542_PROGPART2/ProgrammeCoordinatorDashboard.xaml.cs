@@ -1,23 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using Microsoft.Win32;
 
 namespace AaliyahAllie_ST10212542_PROGPART2
 {
-    /// <summary>
-    /// coordinators will have submitted claims uploaded to this screen where they can either approve or reject the claims
-    /// </summary>
     public partial class ProgrammeCoordinatorDashboard : Window
     {
         // Constructor for the ProgrammeCoordinatorDashboard
@@ -26,18 +15,20 @@ namespace AaliyahAllie_ST10212542_PROGPART2
             InitializeComponent();
             LoadClaims();
         }
+
         // Method to load claims into the ListView
         private void LoadClaims()
         {
             List<Claim> claims = GetClaimsFromDatabase();
             ClaimsListView.ItemsSource = claims;
         }
-        //calls the claims and displays them in a listed view
+
+        // Fetch claims from the database
         private List<Claim> GetClaimsFromDatabase()
         {
             List<Claim> claims = new List<Claim>();
             string connectionString = "Data Source=hp820g4\\SQLEXPRESS;Initial Catalog=POE;Integrated Security=True;";
-            string query = "SELECT ClaimID, ClassTaught, TotalAmount, ClaimStatus FROM Claims";
+            string query = "SELECT ClaimID, ClassTaught, TotalAmount, ClaimStatus, NumberOfSessions FROM Claims";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -54,7 +45,8 @@ namespace AaliyahAllie_ST10212542_PROGPART2
                             ClaimID = reader.GetInt32(0),
                             ClassTaught = reader.GetString(1),
                             TotalAmount = reader.GetDecimal(2),
-                            ClaimStatus = reader.GetString(3)
+                            ClaimStatus = reader.GetString(3),
+                            NumberOfSessions = reader.GetInt32(4) // Added to support the number of hours worked
                         });
                     }
                 }
@@ -65,7 +57,8 @@ namespace AaliyahAllie_ST10212542_PROGPART2
             }
             return claims;
         }
-        //updates the claims status based on coordinators decision
+
+        // Updates the claims status in the database
         private void UpdateClaimStatus(int claimID, string newStatus)
         {
             string connectionString = "Data Source=hp820g4\\SQLEXPRESS;Initial Catalog=POE;Integrated Security=True;";
@@ -90,19 +83,51 @@ namespace AaliyahAllie_ST10212542_PROGPART2
                 }
             }
         }
-        //Approve button changes status of claims to approved
+
+        // Validate a claim based on predefined criteria like hourly rate and total hours worked
+        private bool ValidateClaim(Claim claim)
+        {
+            const decimal minHourlyRate = 100.00m;
+            const decimal maxHourlyRate = 200.00m;
+            const int minHours = 1;
+            const int maxHours = 40;
+
+            // Assuming the TotalAmount is the product of the hourly rate and number of hours worked
+            decimal hourlyRate = claim.TotalAmount / claim.NumberOfSessions;
+
+            if (hourlyRate < minHourlyRate || hourlyRate > maxHourlyRate)
+            {
+                ValidationFeedbackText.Text = "Claim does not meet the required hourly rate criteria.";
+                return false;
+            }
+
+            if (claim.NumberOfSessions < minHours || claim.NumberOfSessions > maxHours)
+            {
+                ValidationFeedbackText.Text = "Claim does not meet the required hours worked criteria.";
+                return false;
+            }
+
+            ValidationFeedbackText.Text = ""; // Clear any previous validation feedback
+            return true;
+        }
+
+        // Approve button changes status of claims to approved
         private void ApproveButton_Click(object sender, RoutedEventArgs e)
         {
             if (ClaimsListView.SelectedItem is Claim selectedClaim)
             {
-                UpdateClaimStatus(selectedClaim.ClaimID, "Approved");
+                if (ValidateClaim(selectedClaim)) // Validate the claim before approving
+                {
+                    UpdateClaimStatus(selectedClaim.ClaimID, "Approved");
+                }
             }
             else
             {
                 MessageBox.Show("Please select a claim to approve.");
             }
         }
-        //rejection button will change status to rejected
+
+        // Reject button will change status to rejected
         private void RejectButton_Click(object sender, RoutedEventArgs e)
         {
             if (ClaimsListView.SelectedItem is Claim selectedClaim)
@@ -114,7 +139,8 @@ namespace AaliyahAllie_ST10212542_PROGPART2
                 MessageBox.Show("Please select a claim to reject.");
             }
         }
-        //pending button will change status to pending
+
+        // Pending button will change status to pending
         private void PendingButton_Click(object sender, RoutedEventArgs e)
         {
             if (ClaimsListView.SelectedItem is Claim selectedClaim)
@@ -126,13 +152,91 @@ namespace AaliyahAllie_ST10212542_PROGPART2
                 MessageBox.Show("Please select a claim to set as pending.");
             }
         }
+
+        // Handle the download of the supporting document
+        private void DownloadDocument_Click(object sender, RoutedEventArgs e)
+        {
+            if (ClaimsListView.SelectedItem is Claim selectedClaim)
+            {
+                // Fetch documents from the database for the selected claim
+                List<SupportingDocument> documents = GetSupportingDocuments(selectedClaim.ClaimID);
+
+                // If documents exist, proceed with download
+                if (documents.Count > 0)
+                {
+                    foreach (var doc in documents)
+                    {
+                        SaveFileDialog saveFileDialog = new SaveFileDialog
+                        {
+                            FileName = doc.DocName,
+                            Filter = "PDF files (*.pdf)|*.pdf|All files (*.*)|*.*"
+                        };
+
+                        if (saveFileDialog.ShowDialog() == true)
+                        {
+                            // Download the document to the specified location
+                            File.Copy(doc.FilePath, saveFileDialog.FileName);
+                            MessageBox.Show("Document downloaded successfully.");
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("No supporting documents available for this claim.");
+                }
+            }
+        }
+
+        // Fetch supporting documents from the database
+        private List<SupportingDocument> GetSupportingDocuments(int claimID)
+        {
+            List<SupportingDocument> documents = new List<SupportingDocument>();
+            string connectionString = "Data Source=hp820g4\\SQLEXPRESS;Initial Catalog=POE;Integrated Security=True;";
+            string query = "SELECT DocID, DocName, FilePath FROM SupportingDocuments WHERE ClaimsID = @ClaimID";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@ClaimID", claimID);
+
+                try
+                {
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        documents.Add(new SupportingDocument
+                        {
+                            DocID = reader.GetInt32(0),
+                            DocName = reader.GetString(1),
+                            FilePath = reader.GetString(2)
+                        });
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: " + ex.Message);
+                }
+            }
+            return documents;
+        }
     }
 
+    // Claim model class
     public class Claim
     {
         public int ClaimID { get; set; }
         public string ClassTaught { get; set; }
         public decimal TotalAmount { get; set; }
         public string ClaimStatus { get; set; }
+        public int NumberOfSessions { get; set; } // Added for hours worked
+    }
+
+    // SupportingDocument model class
+    public class SupportingDocument
+    {
+        public int DocID { get; set; }
+        public string DocName { get; set; }
+        public string FilePath { get; set; }
     }
 }

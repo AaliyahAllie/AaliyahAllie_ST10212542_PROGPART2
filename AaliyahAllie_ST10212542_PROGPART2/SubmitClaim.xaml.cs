@@ -1,31 +1,17 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace AaliyahAllie_ST10212542_PROGPART2
 {
-    /// <summary>
-    /// Lecturers claims will be uploaded based on information they input
-    /// </summary>
     public partial class SubmitClaim : Window
     {
         public SubmitClaim()
         {
             InitializeComponent();
         }
-        // For File Operations
 
         private string uploadedFilePath = null; // Store the uploaded file path
         private double totalAmount = 0; // Store calculated total amount
@@ -42,19 +28,34 @@ namespace AaliyahAllie_ST10212542_PROGPART2
             }
         }
 
-        // Event for calculating the total amount
-        private void CalculateButton_Click(object sender, RoutedEventArgs e)
+        // Automatically calculate the total amount when the sessions or hourly rate change
+        private void SessionsTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CalculateTotalAmount();
+        }
+
+        private void HourlyRateTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CalculateTotalAmount();
+        }
+
+        // Method to calculate total amount based on sessions and hourly rate
+        private void CalculateTotalAmount()
         {
             int numberOfSessions;
-            if (!int.TryParse(SessionsTextBox.Text, out numberOfSessions))
-            {
-                MessageBox.Show("Please enter a valid number of sessions.");
-                return;
-            }
+            double hourlyRate;
 
-            double hourlyRate = 105; // Fixed hourly rate
-            totalAmount = numberOfSessions * hourlyRate;
-            TotalAmountTextBlock.Text = totalAmount.ToString("C"); // Display total as currency
+            // Validate the inputs
+            if (int.TryParse(SessionsTextBox.Text, out numberOfSessions) &&
+                double.TryParse(HourlyRateTextBox.Text, out hourlyRate))
+            {
+                totalAmount = numberOfSessions * hourlyRate;
+                TotalAmountTextBlock.Text = totalAmount.ToString("C"); // Display total as currency
+            }
+            else
+            {
+                TotalAmountTextBlock.Text = string.Empty; // Clear if invalid input
+            }
         }
 
         // Event for submitting the claim
@@ -62,16 +63,25 @@ namespace AaliyahAllie_ST10212542_PROGPART2
         {
             string classTaught = ClassTaughtTextBox.Text;
             int numberOfSessions;
+            double hourlyRate;
+
+            // Validate inputs
             if (!int.TryParse(SessionsTextBox.Text, out numberOfSessions))
             {
                 MessageBox.Show("Please enter a valid number of sessions.");
                 return;
             }
 
+            if (!double.TryParse(HourlyRateTextBox.Text, out hourlyRate))
+            {
+                MessageBox.Show("Please enter a valid hourly rate.");
+                return;
+            }
+
             // Check if the total amount is calculated
             if (totalAmount == 0)
             {
-                MessageBox.Show("Please calculate the total claim amount before submitting.");
+                MessageBox.Show("Please enter valid values for sessions and hourly rate.");
                 return;
             }
 
@@ -95,7 +105,7 @@ namespace AaliyahAllie_ST10212542_PROGPART2
             string connectionString = "Data Source=hp820g4\\SQLEXPRESS;Initial Catalog=POE;Integrated Security=True;";
 
             string query = @"INSERT INTO Claims (ClassTaught, NumberOfSessions, TotalAmount, SupportingDocumentPath)
-                     VALUES (@ClassTaught, @NumberOfSessions, @TotalAmount, @DocumentPath)";
+                             VALUES (@ClassTaught, @NumberOfSessions, @TotalAmount, @DocumentPath)";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -129,11 +139,11 @@ namespace AaliyahAllie_ST10212542_PROGPART2
         {
             ClassTaughtTextBox.Clear();
             SessionsTextBox.Clear();
+            HourlyRateTextBox.Clear();
             TotalAmountTextBlock.Text = string.Empty;
             uploadedFilePath = null;
             totalAmount = 0;
             MessageBox.Show("Form cleared.");
         }
-
     }
 }

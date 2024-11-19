@@ -10,12 +10,13 @@
 
         <!-- Number of sessions label and text box -->
         <TextBlock Text="Number of Sessions:" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,90,0,0"/>
-        <TextBox x:Name="SessionsTextBox" Width="100" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="150,90,0,0"/>
+        <TextBox x:Name="SessionsTextBox" Width="100" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="150,90,0,0" TextChanged="SessionsTextBox_TextChanged"/>
 
-        <!-- Hourly rate label -->
-        <TextBlock Text="Hourly Rate: R105" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,140,0,0"/>
+        <!-- Hourly rate label and text box -->
+        <TextBlock Text="Hourly Rate:" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,140,0,0"/>
+        <TextBox x:Name="HourlyRateTextBox" Width="100" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="150,140,0,0" TextChanged="HourlyRateTextBox_TextChanged"/>
 
-        <!-- Calculate total label and text block -->
+        <!-- Total claim amount label and text block -->
         <TextBlock Text="Total Claim Amount:" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,190,0,0"/>
         <TextBlock x:Name="TotalAmountTextBlock" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="150,190,0,0" Width="100"/>
 
@@ -24,7 +25,6 @@
         <Button Content="Upload Document" Width="150" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="150,240,0,0" Click="UploadDocument_Click"/>
 
         <!-- Buttons -->
-        <Button Content="Calculate" Width="100" Height="30" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,140,20" Click="CalculateButton_Click"/>
         <Button Content="Submit" Width="100" Height="30" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,30,20" Click="SubmitButton_Click"/>
         <Button Content="Cancel" Width="100" Height="30" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="30,0,0,20" Click="CancelButton_Click"/>
     </Grid>

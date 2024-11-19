@@ -44,5 +44,12 @@ namespace AaliyahAllie_ST10212542_PROGPART2
             CreateAccountWindow createAccountWindow = new CreateAccountWindow();
             createAccountWindow.Show();
         }
+        private void GoToHRView_Click(object sender, RoutedEventArgs e)
+        {
+            // Create and show the HRView window
+            HRView hrViewWindow = new HRView();
+            hrViewWindow.Show();
+            this.Close(); // Close the MainWindow if desired
+        }
     }
 }
